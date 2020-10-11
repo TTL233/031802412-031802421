@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,58 +12,73 @@
     <script src="js/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <link type="text/css" rel="stylesheet" href="type.css">
-    
 </head>
+
 
 <body>
     <script src="js/d3.v3.min.js"></script>
     <div class="flex-container">
-        <p id="title">学术家族树</p>
-        <textarea type="textarea" id="text" cols="60" rows="10" class="center" placeholder="请输入内容："></textarea>
-        <button href="javascript:;" onclick="getdata()" class="button_left">生成家族树</button>
-        <input type=button value=重置 onclick="location.reload()" class="button_right">
+        <p id="title">家族树</p>
+        <textarea type="textarea" id="text" cols="80" rows="10" class="center" placeholder="请输入内容"></textarea>
+        <button href="javascript:;" onclick="getdata()" class="button_right">生成家族树</button>
+        <input type=button value=重置 onclick="location.reload()" class="button_left">
     </div>
     <!--使用onclick触发下面的方法-->
     <script>
-        var treeData = [{
+        var treeData = [
+		{
             "name": "",
             "parent": "",
-            "children": [{
+            "children": [
+			{
                 "name": "",
                 "parent": "",
-                "children": [{
-                    "name": "",
-                    "parent": ""
-                }, {
-                    "name": "",
-                    "parent": "",
-                    "children": [{
-                        "name": "",
-                        parent: ""
-                    }]
-                }, {
-                    "name": "",
-                    "parent": ""
-                }, {
-                    "name": "",
-                    "parent": ""
-                }]
-            }, {
+                "children": 
+				[
+					{
+						"name": "",
+						"parent": ""
+					}, 
+					{
+						"name": "",
+						"parent": "",
+						"children": 
+						[{
+							"name": "",
+							parent: ""
+						}]
+					}, 
+					{
+						"name": "",
+						"parent": ""
+					}, 
+					{
+						"name": "",
+						"parent": ""
+					},
+				]
+            }, 
+			{
                 "name": "",
                 "parent": "",
-                "children": [{
+                "children": [
+				{
                     "name": "",
                     "parent": ""
-                }, {
+                }, 
+				{
                     "name": "",
                     "parent": ""
                 }, ]
 
-            }, {
+
+            }, 
+			{
                 "name": "",
                 "parent": ""
             }, ]
         }];
+
 
         function getdata() {
             var text = $("#text").val(); //获取id为text的textarea的全部内容
@@ -73,6 +89,7 @@
                         name: '',
                         children: []
                     }
+
 
                 for (var ii = 0; ii < arry.length; ii++) {
                     var newarr = arry[ii].split("：");//针对每条导师和学生的信息，以“：”为关键字进行分组，可得到身份标签和身份信息
@@ -86,6 +103,7 @@
                     var a3 = a2.split("、");//针对每组身份信息，以“、”为关键字进行切分，得到每个人的名字信息
                     for (var j = 0; j < a3.length; j++) { //a3.length用于得到每条身份信息里名字的数量
 
+
                         var student = {};
                         if (ii == 0) {
                             teacher.name = a3[j];
@@ -93,6 +111,7 @@
                         if (ii != 0) {
                             student.name = a3[j];
                             type.push(student);
+
 
                         }
                     }
@@ -102,28 +121,35 @@
                     }
                 }
 
+
                 treeData[k] = [];
                 treeData[k] = teacher;
                 maketree(k);
             }
         }
 
+
         function maketree(k) {
             var margin = {
                     top: 20,
                     right: 120,
                     bottom: 20,
-                    left: 120
+                    left: 50
                 },
                 width = 960 - margin.right - margin.left,
                 height = 500 - margin.top - margin.bottom;
+
 
             var i = 0,
                 duration = 750, //过渡延迟时间
                 root;
 
+
             var tree = d3.layout.tree() //创建一个树布局
                 .size([height, width]);
+
+
+
 
 
 
@@ -132,6 +158,7 @@
                     return [d.y, d.x];
                 }); //创建新的斜线生成器
 
+
             //声明与定义画布属性
             var svg = d3.select("body").append("svg")
                 .attr("width", width + margin.right + margin.left)
@@ -139,12 +166,17 @@
                 .append("g")
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
             root = treeData[k]; //treeData为上边定义的节点属性
-            root.x0 = height / 2;
+            root.x0 = height / 1.2;
             root.y0 = 0;
 
 
+
+
             update(root);
+
+
 
 
             function update(source) {
@@ -152,16 +184,19 @@
                 var nodes = tree.nodes(root).reverse(),
                     links = tree.links(nodes);
 
-                // Normalize for fixed-depth.设置y坐标点，每层占180px
+
+                // Normalize for fixed-depth.设置y坐标点，每层占300px
                 nodes.forEach(function(d) {
-                    d.y = d.depth * 180;
+                    d.y = d.depth * 380;
                 });
+
 
                 // Update the nodes…每个node对应一个group
                 var node = svg.selectAll("g.node")
                     .data(nodes, function(d) {
                         return d.id || (d.id = ++i);
                     }); //data()：绑定一个数组到选择集上，数组的各项值分别与选择集的各元素绑定
+
 
                 // Enter any new nodes at the parent's previous position.新增节点数据集，设置位置
                 var nodeEnter = node.enter().append("g") //在 svg 中添加一个g，g是 svg 中的一个属性，是 group 的意思，它表示一组什么东西，如一组 lines ， rects ，circles 其实坐标轴就是由这些东西构成的。
@@ -171,17 +206,20 @@
                     })
                     .on("click", click);
 
+
                 //添加连接点---此处设置的是圆圈过渡时候的效果（颜色）
                 // nodeEnter.append("circle")
                 //   .attr("r", 1e-6)
                 //   .style("fill", function(d) { return d._children ? "lightsteelblue" : "#357CAE"; });//d 代表数据，也就是与某元素绑定的数据。
                 nodeEnter.append("rect")
-                    .attr("x", -40)
-                    .attr("y", -20)
-                    .attr("width", 90)
-                    .attr("height", 40)
-                    .attr("rx", 40)
-                    .style("fill", "#800000"); //d 代表数据，也就是与某元素绑定的数据。
+                    .attr("x", -23)
+                    .attr("y", -10)
+                    .attr("width", 70)
+                    .attr("height", 20)
+                    .attr("rx", 10)
+                    .style("fill", "#97bc5d"); //d 代表数据，也就是与某元素绑定的数据。
+
+
 
 
                 nodeEnter.append("text")
@@ -203,17 +241,20 @@
                         return "translate(" + d.y + "," + d.x + ")";
                     });
 
+
                 nodeUpdate.select("rect")
                     .attr("x", -23)
                     .attr("y", -10)
                     .attr("width", 70)
                     .attr("height", 20)
                     .attr("rx", 10)
-                    .style("fill", "#800000");
+                    .style("fill", "#97bc5d");
+
 
                 nodeUpdate.select("text")
                     .attr("text-anchor", "middle")
                     .style("fill-opacity", 1);
+
 
                 // Transition exiting nodes to the parent's new position.过渡现有的节点到父母的新位置。
                 //最后处理消失的数据，添加消失动画
@@ -224,13 +265,17 @@
                     })
                     .remove();
 
+
                 nodeExit.select("circle")
                     .attr("r", 1e-6);
 
 
+
+
                 nodeExit.select("text")
-                    .attr("text-anchor", "left")
+                    .attr("text-anchor", "middle")
                     .style("fill-opacity", 1e-6);
+
 
                 // Update the links…线操作相关
                 //再处理连线集合
@@ -238,6 +283,8 @@
                     .data(links, function(d) {
                         return d.target.id;
                     });
+
+
 
 
                 // Enter any new links at the parent's previous position.
@@ -256,11 +303,13 @@
                     })
                     .attr('marker-end', 'url(#arrow)');
 
+
                 // Transition links to their new position.将斜线过渡到新的位置
                 //保留的连线添加过渡动画
                 link.transition()
                     .duration(duration)
                     .attr("d", diagonal);
+
 
                 // Transition exiting nodes to the parent's new position.过渡现有的斜线到父母的新位置。
                 //消失的连线添加过渡动画
@@ -278,12 +327,14 @@
                     })
                     .remove();
 
+
                 // Stash the old positions for transition.将旧的斜线过渡效果隐藏
                 nodes.forEach(function(d) {
                     d.x0 = d.x;
                     d.y0 = d.y;
                 });
             }
+
 
             //定义一个将某节点折叠的函数
             // Toggle children on click.切换子节点事件
@@ -300,7 +351,7 @@
         }
         //d3.select(self.frameElement).style("height", "500px");
         // 定义菜单选项
-    var userMenuData = [
+        var userMenuData = [
             [{
                 text: "添加",
                 func: function() {
@@ -322,6 +373,7 @@
                     var id = $(this).children("text").html();
                     id = id.substring(id.indexOf("(") + 1, id.indexOf(")"));
 
+
                 }
             }, {
                 text: "删除",
@@ -339,5 +391,6 @@
         });
     </script>
 </body>
+
 
 </html>
