@@ -8,15 +8,18 @@ body {
     text-align: center;
 }
 
+
 p {
     margin: 0;
     padding: 0;
 }
 
+
 .flex-container {
     background-size: 100% 100%;
     background-attachment: fixed;
 }
+
 
 .center {
     display: block;
@@ -24,57 +27,66 @@ p {
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
-    opacity: 0.4;
+    opacity: 0.7;
 }
+
 
 .button_left {
     position: absolute;
-    left: 410px;
+    left: 850px;
     width: 100px;
-    padding: 6px;
-    opacity: 0.4;
+    padding: 7px;
+    opacity: 0.7;
 }
+
 
 .button_right {
     position: absolute;
-    right: 410px;
+    right: 470px;
     width: 100px;
-    padding: 5px;
-    opacity: 0.4;
+    padding: 7px;
+    opacity: 0.7;
 }
+
 
 .node {
     cursor: auto;
 }
 
+
 .node circle {
     fill: rgb(181, 234, 160);
     stroke: rgb(155, 111, 58);
-    stroke-width: 3px;
-}
-
-.node rect {
-    fill: #cccc00;
-    stroke: #800000;
     stroke-width: 5px;
 }
 
-.node text {
-    font: 12px "黑体", sans-serif;
+
+.node rect {
+    fill: #97bc5d;
+    stroke: #97bc5d;
+    stroke-width: 5px;
 }
+
+
+.node text {
+    font: 15px "微软雅黑", sans-serif;
+}
+
 
 .link {
     fill: none;
     stroke: rgb(154, 110, 32);
-    stroke-width: 2px;
+    stroke-width: 3px;
 }
+
 
 #title {
     text-align: center;
     color: rgb(255, 255, 255);
-    font: 30px "黑体", sans-serif;
+    font: 40px "微软雅黑", sans-serif;
     font-weight: normal;
-    line-height: 70px;
     text-shadow: rgb(34, 34, 34) 2px 2px 3px;
+    line-height: 60px;
     background: rgb(0, 0, 0);
+	opacity: 0.5;
 }
